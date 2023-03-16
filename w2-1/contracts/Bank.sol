@@ -24,7 +24,9 @@ contract Bank {
     // 提取用户所有eth
     function withdraw() public {
         require(addressBalance[msg.sender] > 0, "Insufficient balance");
-        safeTransferETH(owner, address(this).balance);
+        uint256 withdrawValue = addressBalance[msg.sender];
+        delete addressBalance[msg.sender];
+        safeTransferETH(msg.sender, withdrawValue);
     }
 
     function safeTransferETH(address to, uint256 value) internal {
